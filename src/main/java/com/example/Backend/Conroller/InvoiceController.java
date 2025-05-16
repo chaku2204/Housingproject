@@ -14,23 +14,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 
-class InvoiceSpecification {
-    public static Specification<Invoice> hasCustomerId(Long customerId) {
-        return (root, query, cb) -> cb.equal(root.get("customerId"), customerId);
-    }
 
-    public static Specification<Invoice> hasAmountBetween(BigDecimal min, BigDecimal max) {
-        return (root, query, cb) -> cb.between(root.get("amount"), min, max);
-    }
-
-    public static Specification<Invoice> hasDateBetween(LocalDate from, LocalDate to) {
-        return (root, query, cb) -> cb.between(root.get("invoiceDate"), from, to);
-    }
-
-    public static Specification<Invoice> hasDescriptionLike(String keyword) {
-        return (root, query, cb) -> cb.like(cb.lower(root.get("description")), "%" + keyword.toLowerCase() + "%");
-    }
-}
 @RestController
 @RequestMapping("/api/invoice")
 @CrossOrigin(origins = "http://localhost:4200")
