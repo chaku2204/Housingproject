@@ -34,6 +34,8 @@ public class Householder {
     @JsonManagedReference
     @JsonIgnore
     private List<Feedback> feedbackList = new ArrayList<>();
+    @Enumerated(EnumType.STRING)
+    private RoleType role = RoleType.USER;
 
 
 

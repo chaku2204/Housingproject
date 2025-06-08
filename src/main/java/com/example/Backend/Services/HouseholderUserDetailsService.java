@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+
 @Service
 public class HouseholderUserDetailsService implements UserDetailsService {
 
@@ -17,14 +19,12 @@ public class HouseholderUserDetailsService implements UserDetailsService {
     private HouseRepository repository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Householder user = repository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        System.out.println(username+"user"+user);
-        return User.builder()
-                .username(user.getEmail())
-                .password(user.getPassword())
-                .roles("USER") // Assign ROLE_USER
-                .build();
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Householder user = repository.findByEmail(email).orElseThrow(() ->
+                new UsernameNotFoundException("User not found")
+        );
+
+        return new User(user.getEmail(), user.getPassword(),
+                Collections.singleton(() -> "ROLE_" + user.getRole().name()));
     }
 }
